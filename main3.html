@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Art Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            /* box-sizing: border-box; */
+            background: white;
+        }
+        
+        header {
+            background-color: #182428;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #182428;
+            padding: 10px;
+        }
+        
+        nav a {
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .burger-line {
+            width: 30px;
+            height: 3px;
+            background-color: #fff;
+            margin: 6px 0;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            header {
+                flex-direction: column;
+            }
+            .burger-menu {
+                display: flex;
+            }
+            .burger-menu {
+                order: -1;
+                /* Переносим бургер-меню в начало строки */
+            }
+            nav {
+                display: none;
+                flex-direction: column;
+            }
+            nav.show-mobile {
+                display: flex;
+            }
+        }
+        /* Стили для компьютерной версии */
+        
+        @media only screen and (min-width: 601px) {
+            header {
+                flex-direction: column;
+            }
+            nav {
+                flex-direction: row;
+            }
+            nav a {
+                margin: 0 15px;
+                /* Добавлены отступы между элементами меню */
+            }
+        }
+        
+        .navigation-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #182428;
+            padding: 10px;
+            transition: top 0.3s ease-in-out;
+        }
+        
+        .navigation-panel a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        
+        .top-week-label {
+            color: white;
+            background-color: #182428;
+            font-size: 24px;
+            text-align: left;
+            padding: 10px;
+            /* margin-top: 40px; */
+            transition: top 0.3s ease-in-out;
+        }
+        
+        .top-week-label2 {
+            color: white;
+            background-color: #182428;
+            font-size: 24px;
+            text-align: left;
+            padding: 10px;
+            /* margin-top: -80px; */
+            transition: top 0.3s ease-in-out;
+        }
+        
+        .top-week-label3 {
+            color: white;
+            background-color: #182428;
+            font-size: 24px;
+            text-align: left;
+            padding: 10px;
+            /* margin-top: -80px; */
+            transition: top 0.3s ease-in-out;
+        }
+        /* .gallery-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            flex: 0 0 22%;
+            margin: 1%;
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 60%;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 10px;
+           
+        
+        box-sizing: border-box;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        border-radius: 10px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+    }
+    .gallery-item:hover {
+        transform: scale(1.2);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .gallery-item:hover img {
+        transform: scale(1.2);
+    }
+    .gallery-item:hover .overlay {
+        opacity: 1;
+    }
+    .overlay p {
+        color: white;
+        margin: 0;
+        text-align: center;
+    }
+    */
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            /* box-sizing: border-box; */
+        }
+        
+        section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            background: #313131;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            /* margin-top: -110px; */
+            flex-wrap: wrap;
+            padding: 5px
+        }
+        
+        .card {
+            position: relative;
+            width: 300px;
+            height: 650px;
+            background: #ffffff;
+            border-radius: 3px;
+            margin: 0 auto;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+        }
+        
+        .card::before,
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 3px;
+            background: #ffffff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+            z-index: -1;
+            transition: .5s;
+        }
+        
+        .card:hover::after {
+            transform: rotate(10deg);
+        }
+        
+        .card:hover::before {
+            transform: rotate(20deg);
+        }
+        
+        .card .imgBox {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: #101010;
+            z-index: 1;
+            transition: .5s;
+        }
+        
+        .card:hover .imgBox {
+            bottom: 375px;
+            /* object-fit: cover; */
+        }
+        
+        .card .imgBox img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+        
+        .card .details {
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            height: 360px;
+        }
+        
+        .card .details h2 {
+            margin-top: 5%;
+            padding: 0;
+            font-weight: 900;
+            font-size: 20px;
+            color: #101010;
+            text-align: center;
+            line-height: 1.15em;
+        }
+        
+        .card .details h2 span {
+            font-weight: 400;
+            font-size: 15px;
+            color: #0dac4f;
+        }
+        
+        @import url(https://fonts.googleapis.com/css?family=Open+sans);
+        @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+        @import url(https://fonts.googleapis.com/css?family=Playfair+Display);
+        .snip1515 {
+            font-family: 'Open Sans', Arial, sans-serif;
+            position: relative;
+            margin: 10px;
+            min-width: 300px;
+            max-width: 600px;
+            width: 100%;
+            color: #000000;
+            text-align: center;
+            line-height: 1.4em;
+            font-size: 14px;
+            display: inline;
+            box-shadow: none !important;
+        }
+        
+        .snip1515-container {
+            display: flex;
+            flex-wrap: nowrap;
+            /* Чтобы блоки не переносились на новую строку */
+            justify-content: space-around;
+            /* Выравнивание блоков по горизонтали */
+            margin-top: 20px;
+            /* Добавлен отступ для разделения блоков от верхнего заголовка */
+        }
+        
+        .snip1515 * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        .snip1515 .profile-image {
+            display: inline-block;
+            width: 80%;
+            z-index: 1;
+            position: relative;
+            padding: 10px;
+            border: 2px solid #e8b563;
+        }
+        
+        .snip1515 .profile-image img {
+            max-width: 100%;
+            vertical-align: top;
+        }
+        
+        .snip1515 figcaption {
+            width: 100%;
+            background-color: #F2F2F2;
+            color: #555;
+            padding: 125px 25px 25px;
+            margin-top: -100px;
+            display: inline-block;
+        }
+        
+        .snip1515 h3,
+        .snip1515 h4,
+        .snip1515 p {
+            margin: 0 0 5px;
+        }
+        
+        .snip1515 h3 {
+            font-weight: 600;
+            font-size: 1.3em;
+            font-family: 'Playfair Display', Arial, sans-serif;
+        }
+        
+        .snip1515 h4 {
+            color: #8c8c8c;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+        
+        .snip1515 p {
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        
+        .snip1515 .icons {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .snip1515 i {
+            padding: 10px 2px;
+            display: inline-block;
+            font-size: 18px;
+            font-weight: normal;
+            color: #e8b563;
+            opacity: 0.75;
+        }
+        
+        .snip1515 i:hover {
+            opacity: 1;
+            -webkit-transition: all 0.35s ease;
+            transition: all 0.35s ease;
+        }
+        /*         
+        aside {
+            background-color: #222831;
+            color: #222831;
+            background: #222831;
+            height: 100%;
+            width: 100%;
+        }
+         */
+        
+        @import url("https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;500&display=swap");
+        .container2 {
+            display: grid;
+            grid-template-columns: 400px 400px 400px;
+            grid-gap: 50px;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282834;
+            font-family: 'Baloo Paaji 2', cursive;
+        }
+        
+        .card2 {
+            background-color: #222831;
+            height: 44rem;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        
+        .card__name {
+            margin-top: 15px;
+            font-size: 1.5em;
+        }
+        
+        .card__image {
+            height: 160px;
+            width: 160px;
+            border-radius: 50%;
+            border: 5px solid #272133;
+            margin-top: 20px;
+            box-shadow: 0 10px 50px rgba(235, 25, 110, 1);
+        }
+        
+        .draw-border {
+            box-shadow: inset 0 0 0 4px #58cdd1;
+            color: #58afd1;
+            -webkit-transition: color 0.25s 0.0833333333s;
+            transition: color 0.25s 0.0833333333s;
+            position: relative;
+        }
+        
+        .draw-border::before,
+        .draw-border::after {
+            border: 0 solid transparent;
+            box-sizing: border-box;
+            content: '';
+            pointer-events: none;
+            position: absolute;
+            width: 0rem;
+            height: 0;
+            bottom: 0;
+            right: 0;
+        }
+        
+        .draw-border::before {
+            border-bottom-width: 4px;
+            border-left-width: 4px;
+        }
+        
+        .draw-border::after {
+            border-top-width: 4px;
+            border-right-width: 4px;
+        }
+        
+        .draw-border:hover {
+            color: #ffe593;
+        }
+        
+        .draw-border:hover::before,
+        .draw-border:hover::after {
+            border-color: #eb196e;
+            -webkit-transition: border-color 0s, width 0.25s, height 0.25s;
+            transition: border-color 0s, width 0.25s, height 0.25s;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .draw-border:hover::before {
+            -webkit-transition-delay: 0s, 0s, 0.25s;
+            transition-delay: 0s, 0s, 0.25s;
+        }
+        
+        .draw-border:hover::after {
+            -webkit-transition-delay: 0s, 0.25s, 0s;
+            transition-delay: 0s, 0.25s, 0s;
+        }
+        
+        .btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            line-height: 1.5;
+            font: 700 1.2rem 'Roboto Slab', sans-serif;
+            padding: 0.75em 2em;
+            letter-spacing: 0.05rem;
+            margin: 1em;
+            width: 23rem;
+        }
+        
+        .btn:focus {
+            outline: 2px dotted #55d7dc;
+        }
+        
+        .social-icons {
+            padding: 0;
+            list-style: none;
+            margin: 1em;
+        }
+        
+        .social-icons li {
+            display: inline-block;
+            margin: 0.15em;
+            position: relative;
+            font-size: 1em;
+        }
+        
+        .social-icons i {
+            color: #fff;
+            position: absolute;
+            top: 0.95em;
+            left: 0.96em;
+            transition: all 265ms ease-out;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+        }
+        
+        .social-icons a:before {
+            transform: scale(1);
+            -ms-transform: scale(1);
+            -webkit-transform: scale(1);
+            content: " ";
+            width: 45px;
+            height: 45px;
+            border-radius: 100%;
+            display: block;
+            background: linear-gradient(45deg, #ff003c, #c648c8);
+            transition: all 265ms ease-out;
+        }
+        
+        .social-icons a:hover:before {
+            transform: scale(0);
+            transition: all 265ms ease-in;
+        }
+        
+        .social-icons a:hover i {
+            transform: scale(2.2);
+            -ms-transform: scale(2.2);
+            -webkit-transform: scale(2.2);
+            color: #ff003c;
+            background: -webkit-linear-gradient(45deg, #ff003c, #c648c8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 265ms ease-in;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            font-size: 1.2em;
+        }
+        
+        footer {
+            background-color: #182428;
+            /* цвет фона футера */
+            color: #fff;
+            padding: 20px;
+            text-align: left;
+            /* margin-top: 30px; */
+            /* выравниваем текст по левому краю */
+            position: relative;
+            /* margin-top: 50px; */
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: large;
+            /* line-height: 1.5em; */
+            /* выравниваем по центру по вертикали */
+        }
+        
+        .fot {
+            font-size: large;
+            /* line-height: 1; */
+        }
+        
+        @media only screen and (max-width: 600px) {
+            footer {
+                display: none;
+            }
+        }
+        /* Default styles for larger screens */
+        /* ... (your existing styles) ... */
+        /* Media queries for smaller screens (phones) */
+        
+        @media only screen and (max-width: 600px) {
+            /* ... (your existing media query styles) ... */
+            .snip1515-container {
+                display: flex;
+                flex-wrap: wrap;
+                /* Allow the items to wrap to the next line */
+                justify-content: space-around;
+                /* Adjust as needed */
+            }
+            .snip1515 {
+                width: 100%;
+                /* Make each item take full width on smaller screens */
+                max-width: 300px;
+                /* Set a maximum width if needed */
+                margin-bottom: 20px;
+            }
+        }
+        /* Media queries for tablets */
+        
+        @media only screen and (min-width: 600px) and (max-width: 1023px) {
+            .snip1515 {
+                width: 48%;
+                /* Adjust the width as needed for tablets */
+                margin-right: 2%;
+                /* Add some spacing between items */
+                margin-bottom: 20px;
+            }
+        }
+        /* Default styles for larger screens */
+        /* ... (your existing styles) ... */
+        /* Media query for mobile devices */
+        /* Media query for mobile devices */
+        
+        @media only screen and (max-width: 600px) {
+            .container2 {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .card2 {
+                width: 100%;
+            }
+        }
+        /* Media query for tablets */
+        /* Media query for tablets */
+        /* Media query for tablets */
+        /* Media query for tablets */
+        /* Media query for tablets */
+        
+        @media only screen and (min-width: 601px) and (max-width: 1024px) {
+            .container2 {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                /* margin-bottom: 20px; */
+            }
+            .container2 .card2 {
+                width: 48%;
+                margin-bottom: 15px;
+            }
+            .container2 .card2:nth-child(3n+1) {
+                width: 48%;
+            }
+            .container2 .card2:nth-child(3n+2) {
+                width: 44%;
+            }
+            .card2:nth-child(3) {
+                height: 50%;
+                margin-top: -100px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+
+<body>
+    <header>
+        <div class="burger-menu" onclick="toggleNav()">
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+        </div>
+        <nav>
+            <a href="file:///C:/Users/user/Desktop/курсовая/index.html">Главное</a>
+            <a href="file:///C:/Users/user/Desktop/курсовая/main2.html">Популярное</a>
+            <a href="file:///C:/Users/user/Desktop/курсовая/main3.html">Художники</a>
+            <a href="file:///C:/Users/user/Desktop/курсовая/main4.html">Картины</a>
+            <a href="file:///C:/Users/user/Desktop/курсовая/register.html">Успей зарегистрироваться</a>
+        </nav>
+    </header>
+
+    <div class="navigation-panel">
+        <a href="#top-week-label">17-18</a>
+        <a href="#top-week-label2">19-20</a>
+        <a href="#top-week-label3">21</a>
+    </div>
+
+    <div id="top-week-label" class="top-week-label">
+        Лучшие художники: 17-18 века
+    </div>
+
+
+</body>
+<section>
+    <div class="box">
+        <div class="card">
+            <div class="imgBox">
+                <img src="17.png" alt="some image">
+            </div>
+            <div class="details">
+                <h2> Питер-Пауль Рубенс<br><span>Питер-Пауль Рубенс (годы жизни 1577-1640 [прожил 63 года]) – считается самым известным художником фламандского барокко. Он создал уникальный стиль барокко и работал над многочисленными шедеврами, в том числе алтарями, портретами, пейзажами и историческими картинами, включающими в себя религиозные и мифические сюжеты.</span></h2>
+            </div>
+        </div>
+        <div class="card">
+            <div class="imgBox">
+                <img src="https://avatars.dzeninfra.ru/get-zen_doc/5232922/pub_61f819766c52467011140030_61f81c0a99b6ce4650ec5f0c/scale_1200" alt="some image">
+            </div>
+            <div class="details">
+                <h2>Диего Веласкес<br><span>Диего Родригес де Сильва-и-Веласкес (годы жизни 1599-1660 [прожил 61 год]), более известный под именем Диего Веласкес – был испанским художником эпохи барокко, который в основе своей писал работы для королевской семьи Испании при дворе короля Филиппа IV. Подобно Караваджо, он использовал освещение таким образом, чтобы усилить драматизм своих картин.</span></h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="imgBox">
+                <img src="https://avatars.dzeninfra.ru/get-zen_doc/4766103/pub_61f819766c52467011140030_61f81bce8983b21cfb6a2716/scale_1200" alt="some image">
+            </div>
+            <div class="details">
+                <h2>Рембрандт Харменс ван Рейн<br><span>Рембрандт Харменс ван Рейн (годы жизни 1606-1669 [прожил 63 года]), более известный как просто Рембрандт – считается одним из величайших мастеров эпохи барокко сразу в трёх областях: рисунок, печать и живопись. Именно поэтому он и является одним из самых известных художников в истории искусства.</span></h2>
+            </div>
+        </div>
+        <div class="card">
+            <div class="imgBox">
+                <img src="https://avatars.dzeninfra.ru/get-zen_doc/3703431/pub_61f819766c52467011140030_625f1b1053783b065f3c391f/scale_1200" alt="some image">
+            </div>
+            <div class="details">
+                <h2>Аннибале Карраччи<br><span>Аннибале Карраччи (годы жизни 1560-1609 [прожил 49 лет]) – являлся современником Караваджо (его лучшие работы по этой ссылке), но стили двух живописцев были ну очень разными. На Карраччи повлияли как художники Высокого Возрождения, так и художники-маньеристы, в результате чего он лично разработал эклектичный стиль, основанный на чистых композициях и ярких цветах.</span></h2>
+            </div>
+        </div>
+
+    </div>
+</section>
+<main>
+    <div id="top-week-label2" class="top-week-label2">
+        Лучшие художники: 19-20 века
+    </div>
+    <div class="snip1515-container">
+        <figure class="snip1515">
+            <div class="profile-image"><img src="https://avatars.mds.yandex.net/i?id=448c24a99442a60b59b6a925f0e4de957b89953f-4471742-images-thumbs&n=13" alt="sample47" /></div>
+            <figcaption>
+                <h3>Эдуард Мане</h3>
+                <h4>1832–1883</h4>
+                <p>Эдуард Мане — художник, которого сами импрессионисты считали одним из зачинателей художественного стиля импрессионизм, его предтечей. Однако на самом деле Мане — своеобразный мостик, соединивший реализм и, пожалуй, самое известное направление
+                    живописи XIX века — импрессионизм.</p>
+                <div class="icons"><a href="#"><i class="ion-social-reddit"></i></a>
+                    <a href="#"> <i class="ion-social-twitter"></i></a>
+                    <a href="#"> <i class="ion-social-vimeo"></i></a>
+                </div>
+            </figcaption>
+        </figure>
+        <figure class="snip1515">
+            <div class="profile-image"><img src="https://avatars.mds.yandex.net/i?id=59530401949240dd9ab726566d807e80126ca20b-10686310-images-thumbs&n=13" alt="sample83" /></div>
+            <figcaption>
+                <h3>Сальвадор Дали</h3>
+                <h4>1904–1989</h4>
+                <p>Автобиография Сальвадора Дали, которой, учитывая его любовь к эпатажу и приукрашиванию, вряд ли стоит так уж доверять, называется «Дневник одного гения». И это неспроста. Сам Дали искренне считал себя исключительным человеком: «Просыпаясь
+                    по утрам, я испытываю изысканное удовольствие — удовольствие быть Сальвадором Дали, и в экстазе спрашиваю себя: „Какие еще восхитительные вещи сотворит сегодня этот Сальвадор Дали?“».</p>
+                <div class="icons"><a href="#"><i class="ion-social-reddit"></i></a>
+                    <a href="#"> <i class="ion-social-twitter"></i></a>
+                    <a href="#"> <i class="ion-social-vimeo"></i></a>
+                </div>
+            </figcaption>
+        </figure>
+        <figure class="snip1515">
+            <div class="profile-image"><img src="https://avatars.mds.yandex.net/i?id=47d0cba10e1b1fe0e9f81a53f4765b6b97f83e9c-10471668-images-thumbs&n=13" alt="sample70" /></div>
+            <figcaption>
+                <h3>Пабло Пикассо</h3>
+                <h4>1881–1973</h4>
+                <p>абло Пикассо (полное имя — Пабло Диего Хосе Франсиско де Паула Хуан Непомусенo Мария де лос Ремедиос Сиприано де ла Сантисима Тринидад Мартир Патрисио Руис-и-Пикассо) — испанский и французский художник, скульптор, график, театральный художник,
+                    керамист и дизайнер. Основоположник кубизма (совместно с Жоржем Браком и Хуаном Грисом), в котором трёхмерное тело в оригинальной манере изображалось как ряд совмещённых воедино плоскостей.</p>
+                <div class="icons"><a href="#"><i class="ion-social-reddit"></i></a>
+                    <a href="#"> <i class="ion-social-twitter"></i></a>
+                    <a href="#"> <i class="ion-social-vimeo"></i></a>
+                </div>
+            </figcaption>
+        </figure>
+    </div>
+</main>
+<aside>
+    <div id="top-week-label3" class="top-week-label3">
+        Лучшие художники: 21 века
+    </div>
+    <div class="container2">
+        <div class="card2">
+            <img src="https://avatars.mds.yandex.net/i?id=a67756bafe2bbce3c42475c2aba4c164f8231d11-9094507-images-thumbs&n=13" alt="Person" class="card__image">
+            <p class="card__name">Такаши Мураками</p>
+            <div class="grid-container">
+
+                <div class="grid-child-posts">
+                    156 Post
+                </div>
+
+                <div class="grid-child-followers">
+                    1012 Likes
+                </div>
+
+            </div>
+            <ul class="social-icons">
+                <li><a href="#"><i class="fab fa-google"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            </ul>
+
+
+
+            <button class="btn draw-border">       
+       
+                <p> Такаси Мураками — один из наиболее успешных современных японских художников. Его разноплановая деятельность охватывает искусство,дизайн, анимацию, моду и популярную культуру. Однако популярность аниме и манга направили его интерес к искусству анимации. <br><br></p>
+            </button>
+
+        </div>
+        <div class="card2">
+            <img src="https://avatars.mds.yandex.net/i?id=9846e14d88dd6778b180e5e1bdf8644f1b7bb26a-11378374-images-thumbs&n=13" alt="Person" class="card__image">
+            <p class="card__name">Сесили Браун</p>
+            <div class="grid-container">
+
+                <div class="grid-child-posts">
+                    305 Post
+                </div>
+
+                <div class="grid-child-followers">
+                    2643 Likes
+                </div>
+
+            </div>
+            <ul class="social-icons">
+                <li><a href="#"><i class="fab fa-google"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            </ul>
+
+            <button class="btn draw-border">
+           
+                <p> Сесили Браун является британским художником. Она является представителем абстрактного экспрессионизма.Когда она начинает рисовать, она вообще не имеет точного представления о том , что она пытается достичь, но она позволяет лакирование раскрыть себя , как она работает. <br><br> </p>
+            </button>
+            <!-- <button class="btn draw-border">Message</button> -->
+        </div>
+        <div class="card2">
+            <img src="https://avatars.mds.yandex.net/i?id=b5f1bfb7f0317328b76b5df1c6b844181a6ce81c-9111606-images-thumbs&n=13   " alt="Person" class="card__image">
+            <p class="card__name">Лю Вэй</p>
+            <div class="grid-container">
+
+                <div class="grid-child-posts">
+                    902 Post
+                </div>
+
+                <div class="grid-child-followers">
+                    1300 Likes
+                </div>
+
+            </div>
+            <ul class="social-icons">
+                <li><a href="#"><i class="fab fa-google"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            </ul>
+
+            <button class="btn draw-border">
+            
+                <p>Лю Вэй – современный китайский художник. Говоря о творчестве данного художника, трудно выделить единую стилистическую составляющую. Галерея Саатчи, анонсируя работы художника, пишет, что в них ощущается «чувство избытка, затрагивается тема коррупции и агрессивного отражения культурной тревоги». </p>
+            </button>
+            <!-- <button class="btn draw-border">Message</button> -->
+        </div>
+    </div>
+</aside>
+<footer>
+    <div class="footer-content">
+        <div>
+            <p>Номер телефона: **********</p>
+            <p>Почта: *******@mail.ru</p>
+        </div>
+        <div class="fot">
+            <p>Design by Eva</p>
+        </div>
+    </div>
+</footer>
+<script>
+    function toggleNav() {
+        const nav = document.querySelector('nav');
+        nav.classList.toggle('show-mobile');
+    }
+</script>
+</body>
+
+
+</html>

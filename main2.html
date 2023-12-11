@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Art Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #8cb6bb;
+        }
+        
+        header {
+            background-color: #182428;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #182428;
+            padding: 10px;
+        }
+        
+        nav a {
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .burger-line {
+            width: 30px;
+            height: 3px;
+            background-color: #fff;
+            margin: 6px 0;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            header {
+                flex-direction: column;
+            }
+            .burger-menu {
+                display: flex;
+            }
+            .burger-menu {
+                order: -1;
+                /* Переносим бургер-меню в начало строки */
+            }
+            nav {
+                display: none;
+                flex-direction: column;
+            }
+            nav.show-mobile {
+                display: flex;
+            }
+        }
+        /* Стили для компьютерной версии */
+        
+        @media only screen and (min-width: 601px) {
+            header {
+                flex-direction: column;
+            }
+            nav {
+                flex-direction: row;
+            }
+            nav a {
+                margin: 0 15px;
+                /* Добавлены отступы между элементами меню */
+            }
+        }
+        
+        .navigation-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: large;
+            background-color: #182428;
+            padding: 10px;
+            transition: top 0.3s ease-in-out;
+        }
+        
+        .navigation-panel a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        
+        .top-week-label {
+            color: white;
+            background-color: #182428;
+            font-size: 24px;
+            text-align: left;
+            padding: 10px;
+            /* margin-top: 40px; */
+            transition: top 0.3s ease-in-out;
+        }
+        /* main {
+            padding: 20px;
+            margin-top: 80px;
+        } */
+        
+        .gallery {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        
+        .artwork {
+            position: relative;
+            margin: 10px;
+            width: calc(33.33% - 20px);
+            overflow: hidden;
+        }
+        
+        .artwork img {
+            max-width: 100%;
+            height: 100%;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+        
+        .artwork:hover img {
+            transform: scale(1.1);
+            filter: brightness(70%);
+        }
+        
+        .artwork .like {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        .artwork .like.liked {
+            color: red;
+        }
+        
+        .artwork .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            color: #fff;
+            text-align: center;
+            transition: opacity 0.3s ease-in-out;
+            max-width: 80%;
+        }
+        
+        .artwork:hover .text {
+            opacity: 1;
+        }
+        
+        .exhibitions-label {
+            color: white;
+            background: #182428;
+            font-size: 24px;
+            text-align: left;
+            margin-bottom: -17px;
+            padding: 10px;
+            margin-top: 20px;
+            /* width: 100%; */
+        }
+        
+        .register-label {
+            color: white;
+            background: linear-gradient(to right, #689d80, #182428, #182428);
+            font-size: 32px;
+            text-align: left;
+            padding: 10px;
+            height: 40px;
+            /* margin-top: -5px; */
+            /* width: 100%; */
+        }
+        
+        .genres-label {
+            color: white;
+            background: #182428;
+            font-size: 24px;
+            text-align: left;
+            padding: 10px;
+            /* margin-top: 20px; */
+            /* width: 100%; */
+        }
+        
+        main {
+            position: relative;
+            width: 100%;
+            height: 920px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .item {
+            width: 200px;
+            height: 300px;
+            /* margin-top: -17px; */
+            list-style-type: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            background-position: center;
+            background-size: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 30px rgba(255, 255, 255, 0.3) inset;
+            transition: transform 0.1s, left 0.75s, top 0.75s, width 0.75s, height 0.75s;
+            &:nth-child(1),
+            &:nth-child(2) {
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                transform: none;
+                border-radius: 0;
+                box-shadow: none;
+                opacity: 1;
+            }
+            &:nth-child(3) {
+                left: 50%;
+            }
+            &:nth-child(4) {
+                left: calc(50% + 220px);
+            }
+            &:nth-child(5) {
+                left: calc(50% + 440px);
+            }
+            &:nth-child(6) {
+                left: calc(50% + 660px);
+                opacity: 0;
+            }
+        }
+        
+        .content {
+            width: min(30vw, 400px);
+            position: absolute;
+            top: 50%;
+            left: 3rem;
+            transform: translateY(-50%);
+            font: 400 0.85rem helvetica, sans-serif;
+            color: white;
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            display: none;
+            & .title {
+                font-family: 'arial-black';
+                text-transform: uppercase;
+            }
+            & .description {
+                line-height: 1.7;
+                margin: 1rem 0 1.5rem;
+                font-size: 0.8rem;
+            }
+            & button {
+                width: fit-content;
+                background-color: rgba(0, 0, 0, 0.1);
+                color: white;
+                border: 2px solid white;
+                border-radius: 0.25rem;
+                padding: 0.75rem;
+                cursor: pointer;
+            }
+        }
+        
+        .item:nth-of-type(2) .content {
+            display: block;
+            animation: show 0.75s ease-in-out 0.3s forwards;
+        }
+        
+        @keyframes show {
+            0% {
+                filter: blur(5px);
+                transform: translateY(calc(-50% + 75px));
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+        
+        .nav {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            user-select: none;
+            & .btn {
+                background-color: rgba(255, 255, 255, 0.5);
+                color: rgba(0, 0, 0, 0.7);
+                border: 2px solid rgba(0, 0, 0, 0.6);
+                margin: 0 0.25rem;
+                padding: 0.75rem;
+                border-radius: 50%;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.3);
+                }
+            }
+        }
+        /* Lazy Load Styles */
+        
+        .card-image {
+            display: block;
+            min-height: 20rem;
+            /* layout hack */
+            background: #fff center center no-repeat;
+            background-size: cover;
+            filter: blur(3px);
+            /* blur the lowres image */
+        }
+        
+        .card-image>img {
+            display: block;
+            width: 100%;
+            opacity: 0;
+            /* visually hide the img element */
+        }
+        
+        .card-image.is-loaded {
+            filter: none;
+            /* remove the blur on fullres image */
+            transition: filter 1s;
+        }
+        /* Layout Styles */
+        
+        .genres {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            background-color: #fff;
+            font-size: 16px;
+            font-family: sans-serif;
+        }
+        
+        .card-list {
+            display: block;
+            margin: 1rem auto;
+            padding: 0;
+            font-size: 0;
+            text-align: center;
+            list-style: none;
+        }
+        
+        .card {
+            display: inline-block;
+            width: 90%;
+            max-width: 20rem;
+            margin: 1rem;
+            font-size: 1rem;
+            text-decoration: none;
+            overflow: hidden;
+            box-shadow: 0 0 3rem -1rem rgba(0, 0, 0, 0.5);
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s;
+        }
+        
+        .card:hover {
+            transform: translateY(-0.5rem) scale(1.0125);
+            box-shadow: 0 0.5em 3rem -1rem rgba(0, 0, 0, 0.5);
+        }
+        
+        .card-description {
+            display: block;
+            padding: 1em 0.5em;
+            color: #515151;
+            text-decoration: none;
+        }
+        
+        .card-description>h2 {
+            margin: 0 0 0.5em;
+        }
+        
+        .card-description>p {
+            margin: 0;
+        }
+        
+        footer {
+            background-color: #182428;
+            /* цвет фона футера */
+            color: #fff;
+            padding: 20px;
+            text-align: left;
+            margin-top: -15px;
+            /* выравниваем текст по левому краю */
+            position: relative;
+            /* margin-top: 50px; */
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* выравниваем по центру по вертикали */
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .artwork {
+                width: calc(50% - 20px);
+                /* Two items per row on mobile */
+            }
+            .exhibitions-label,
+            .register-label,
+            .genres-label {
+                font-size: 18px;
+            }
+            .artwork .text {
+                font-size: 12px;
+                /* Further reduced font size for mobile */
+                line-height: 1;
+                /* Reduced line height for better spacing */
+            }
+            .item {
+                height: 200px;
+            }
+            .slider {
+                display: none;
+                margin: 0;
+                /* Remove any margin */
+                padding: 0;
+            }
+            .exhibitions-label {
+                display: none;
+                margin: 0;
+                /* Remove any margin */
+                padding: 0;
+            }
+            main {
+                height: auto;
+            }
+            .navigation-panel a:nth-child(2) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="burger-menu" onclick="toggleNav()">
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+        </div>
+        <nav>
+            <a href="file:///C:/Users/user/Desktop/курсовая/index.html">Главное</a>
+            <a href="file:///C:/Users/user/Desktop/курсовая/main2.html">Популярное</a>
+            <a href="file:///C:/Users/user/Desktop/курсовая/main3.html">Художники</a>
+            <a href="file:///C:/Users/user/Desktop/курсовая/main4.html">Картины</a>
+            <a href="file:///C:/Users/user/Desktop/курсовая/register.html">Успей зарегистрироваться</a>
+        </nav>
+    </header>
+
+
+    <div class="navigation-panel">
+        <a href="#top-week-label">Топ недели</a>
+        <a href="#exhibitions-label">Ближайшие выставки</a>
+        <!-- <a href="#">Успей зарегистрироваться</a> -->
+        <a href="#genres-label">Самые популярные жанры</a>
+    </div>
+
+    <div id="top-week-label" class="top-week-label">
+        ТОП НЕДЕЛИ
+    </div>
+    <section class="gallery-main">
+        <div class="gallery">
+            <div class="artwork">
+                <img src="https://art-dot.ru/wp-content/uploads/2022/06/nad-vechnym-pokoem-isaak-levitan-1894.jpg" alt="Artwork 5">
+                <div class="like">&#10084; <span class="like-count">10000</span></div>
+                <div class="text">
+                    <p>Название: Над вечным покоем</p>
+                    <p>Художник: Исаак Левитан</p>
+                    <p>Год: 1894</p>
+                </div>
+            </div>
+            <div class="artwork">
+                <img src="https://sr.gallerix.ru/_EX/2037947957/784558105.jpg" alt="Artwork 2">
+                <div class="like">&#10084; <span class="like-count">10000</span></div>
+                <div class="text">
+                    <p>Название: Прощание</p>
+                    <p>Художник: Айвазовский Иван</p>
+                    <p>Дата: 1868 год</p>
+                </div>
+            </div>
+            <div class="artwork">
+                <img src="https://sr.gallerix.ru/_EX/2037947957/452111816.jpg" alt="Artwork 3">
+                <div class="like">&#10084; <span class="like-count">10000</span></div>
+                <div class="text">
+                    <p>Название: Корабельная роща</p>
+                    <p>Художник: Шишкин Иван</p>
+                    <p>Дата: 1898</p>
+                </div>
+            </div>
+            <div class="artwork">
+                <img src="https://sr.gallerix.ru/_EX/2037947957/525720214.jpg" alt="Artwork 4">
+                <div class="like">&#10084; <span class="like-count">10000</span></div>
+                <div class="text">
+                    <p>Название: Радуга</p>
+                    <p>Художник:Дубовской Николай</p>
+                    <p>Дата: 1892</p>
+                </div>
+            </div>
+            <div class="artwork">
+                <img src="1.jpg" alt="Artwork 1">
+                <div class="like">&#10084; <span class="like-count">10000</span></div>
+                <div class="text">
+                    <p>Название: Девушка в костюме Флоры</p>
+                    <p>Художник: Маковский Константин</p>
+                    <p>Дата: 19 век</p>
+                </div>
+            </div>
+            <div class="artwork">
+                <img src="https://art-dot.ru/wp-content/uploads/2022/06/portret-marii-lopuhinoj-vladimir-borovikovskij-1797.jpg" alt="Artwork 6">
+                <div class="like">&#10084; <span class="like-count">10000</span></div>
+                <div class="text">
+                    <p>Название: Портрет Марии Лопухиной</p>
+                    <p>Художник: Владимир Боровиковский</p>
+                    <p>Год: 1797</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="exhibitions-label" class="exhibitions-label">
+            Ближайшие выставки
+        </div>
+    </section>
+    <main>
+
+
+
+        <ul class='slider'>
+            <li class='item' style="background-image: url('11.png')">
+                <div class='content'>
+                    <h2 class='title'>"Декоративное Искусство Москвы"</h2>
+                    <p class='description'> Ежегодная выставка декоративного искусства Москвы в Пушкинском музеи </p>
+
+                </div>
+            </li>
+            <li class='item' style="background-image: url('12.png')">
+                <div class='content'>
+                    <h2 class='title'>"Секреты жизни"</h2>
+                    <p class='description'> Международная художественная выставка</p>
+
+                </div>
+            </li>
+            <li class='item' style="background-image: url('13.png')">
+                <div class='content'>
+                    <h2 class='title'>"Дыхание весны"</h2>
+                    <p class='description'> Выставка известных художников 18 века </p>
+
+                </div>
+            </li>
+            <li class='item' style="background-image: url('14.png')">
+                <div class='content'>
+                    <h2 class='title'>"Маяковский"</h2>
+                    <p class='description'>
+                        Выставка посвещена Владимиру Маяковскому
+                    </p>
+
+                </div>
+            </li>
+            <li class='item' style="background-image: url('15.png')">
+                <div class='content'>
+                    <h2 class='title'>"Выставка современного искусства"</h2>
+                    <p class='description'>
+                        Выставка крымских художников
+                    </p>
+
+                </div>
+            </li>
+            <!-- <li class='item' style="background-image: url('13.png')">
+                <div class='content'>
+                    <h2 class='title'>"The Migration"</h2>
+                    <p class='description'> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore fuga voluptatum, iure corporis inventore praesentium nisi. Id laboriosam ipsam enim. </p>
+
+                </div>
+            </li> -->
+        </ul>
+        <nav class='nav'>
+            <ion-icon class='btn prev' name="arrow-back-outline"></ion-icon>
+            <ion-icon class='btn next' name="arrow-forward-outline"></ion-icon>
+        </nav>
+
+    </main>
+
+    <section class="register">
+        <div class="register-label">
+            Успей зарегистрироваться!
+        </div>
+    </section>
+    <section class="genres">
+        <div id="genres-label" class="genres-label">
+            Самые популярные жанры
+        </div>
+        <ul class="card-list">
+
+            <li class="card">
+                <a class="card-image" target="_blank" style="background-image: url(16a.png);" data-image-full="16a.png">
+                    <img src="16a.png" alt="Psychopomp  " />
+                </a>
+                <a class="card-description" target="_blank">
+                    <h2>Абстракционизм</h2>
+                    <p>Абстракционизм — это художественное направление, которое принципиально отказывается от представления объективной реальности и вместо этого стремится к выражению идеи или эмоций через абстрактные формы, линии, цвета и текстуры. <br><br></p>
+                </a>
+            </li>
+
+            <li class="card">
+                <a class="card-image" target="_blank" style="background-image: url(16b.png);" data-image-full="16b.png">
+                    <img src="16b.png" alt="let's go" />
+                </a>
+                <a class="card-description" target="_blank">
+                    <h2>Марина</h2>
+                    <p>Марина — это художественный жанр, в котором изображается морская или речная тематика. Он позволяет художнику передать атмосферу моря, плавание судов, природу и людей, связанных с водным пространством.<br><br><br></p>
+                </a>
+            </li>
+
+            <li class="card">
+                <a class="card-image" target="_blank" style="background-image: url(16c.png);" data-image-full="16c.png">
+                    <img src="16c.png" alt="The Beautiful Game" />
+                </a>
+                <a class="card-description" target="_blank">
+                    <h2>Портрет</h2>
+                    <p>Портрет – это изображение лица или фигуры человека, ориентированное на передачу его внешности, выражения, характера и чувств. Портреты могут быть выполнены в различных стилях и могут включать в себя различные элементы, такие как фон,
+                        освещение, поза и детали одежды.</p>
+                </a>
+            </li>
+
+            <!-- <li class="card">
+                <a class="card-image" href="https://convergecult.bandcamp.com/album/jane-doe" target="_blank" style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/310408/jane-doe-100.jpg);" data-image-full="https://s3-us-west-2.amazonaws.com/s.cdpn.io/310408/jane-doe-500.jpg">
+                    <img src="16d.jpg" alt="Jane Doe" />
+                </a>
+                <a class="card-description" href="https://convergecult.bandcamp.com/album/jane-doe" target="_blank">
+                    <h2>Jane Doe</h2>
+                    <p>Converge</p>
+                </a>
+            </li> -->
+
+        </ul>
+    </section>
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p>Номер телефона: **********</p>
+                <p>Почта: *******@mail.ru</p>
+            </div>
+            <div>
+                <p>Design by Eva</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // This is "probably" IE9 compatible but will need some fallbacks for IE8
+        // - (event listeners, forEach loop)
+
+        // wait for the entire page to finish loading
+        window.addEventListener('load', function() {
+
+            // setTimeout to simulate the delay from a real page load
+            setTimeout(lazyLoad, 1000);
+
+        });
+
+        function lazyLoad() {
+            var card_images = document.querySelectorAll('.card-image');
+
+            // loop over each card image
+            card_images.forEach(function(card_image) {
+                var image_url = card_image.getAttribute('data-image-full');
+                var content_image = card_image.querySelector('img');
+
+                // change the src of the content image to load the new high res photo
+                content_image.src = image_url;
+
+                // listen for load event when the new photo is finished loading
+                content_image.addEventListener('load', function() {
+                    // swap out the visible background image with the new fully downloaded photo
+                    card_image.style.backgroundImage = 'url(' + image_url + ')';
+                    // add a class to remove the blur filter to smoothly transition the image change
+                    card_image.className = card_image.className + ' is-loaded';
+                });
+
+            });
+
+        }
+    </script>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        // Добавьте скрипт для активации слайдера
+        const slider = document.querySelector('.slider');
+
+        function activate(e) {
+            const items = document.querySelectorAll('.item');
+            e.target.matches('.next') && slider.append(items[0]);
+            e.target.matches('.prev') && slider.prepend(items[items.length - 1]);
+        }
+
+        document.addEventListener('click', activate, false);
+    </script>
+
+    <script>
+        const likeButtons = document.querySelectorAll(".like");
+
+        likeButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const likeCount = button.querySelector(".like-count");
+                let count = parseInt(likeCount.textContent);
+                count++;
+                likeCount.textContent = count;
+                button.classList.toggle("liked");
+            });
+        });
+    </script>
+    <script>
+        function toggleNav() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('show-mobile');
+        }
+    </script>
+</body>
+
+</html>
