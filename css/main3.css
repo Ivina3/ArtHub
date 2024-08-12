@@ -581,7 +581,6 @@ footer {
     justify-content: space-between;
     align-items: center;
     font-size: large;
-    /* line-height: 1.5em; */
 }
 
 .fot {
@@ -595,14 +594,7 @@ footer {
     }
 }
 
-
-/* Default styles for larger screens */
-
-
-/* Media queries for smaller screens (phones) */
-
 @media only screen and (max-width: 600px) {
-    /* ... (your existing media query styles) ... */
     .snip1515-container {
         display: flex;
         flex-wrap: wrap;
@@ -636,5 +628,28 @@ footer {
     }
     .card2 {
         width: 100%;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+    .container2 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        /* margin-bottom: 20px; */
+    }
+    .container2 .card2 {
+        width: 48%;
+        margin-bottom: 15px;
+    }
+    .container2 .card2:nth-child(3n+1) {
+        width: 48%;
+    }
+    .container2 .card2:nth-child(3n+2) {
+        width: 44%;
+    }
+    .card2:nth-child(3) {
+        height: 50%;
+        margin-top: -100px;
     }
 }
