@@ -45,7 +45,7 @@ main {
 }
 
 .main-image {
-    background-image: url('../picture/img1.png');
+    background-image: url('/picture/img1.png');
     background-size: cover;
     background-position: center;
     height: 960px;
@@ -102,7 +102,7 @@ main {
 }
 
 .full-screen-image {
-    background-image: url('../picture/img3.png');
+    background-image: url('/picture/img3.png');
     background-size: cover;
     background-position: center;
     height: 900px;
