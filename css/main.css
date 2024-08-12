@@ -102,7 +102,7 @@ main {
 }
 
 .full-screen-image {
-    background-image: url('/picture/img3.png');
+    background-image: url('../picture/img3.png');
     background-size: cover;
     background-position: center;
     height: 900px;
